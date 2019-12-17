@@ -3,8 +3,9 @@
     
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <HelloWorld msg="Actions wit da users list"/>
-    <urozaev :users='users'></urozaev>
-    <modal></modal>
+    <user :users='users' @remove-user="removeUser"></user>
+    <modal :users='users'></modal>
+    
   </main>
 </template>
 
@@ -15,7 +16,7 @@ import VueInputMask from 'vue-inputmask-ng'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import HelloWorld from './components/HelloWorld.vue'
-import urozaev from './components/urozaev'
+import user from './components/user'
 import modal from './components/modal'
 Vue.use(BootstrapVue)
 Vue.use(VueInputMask)
@@ -62,10 +63,13 @@ export default {
   },
   components: {
     HelloWorld,
-    urozaev,
+    user,
     modal
   },
   methods: {
+    removeUser(elem){
+      this.users.splice(elem, 1)
+    },
     getAllPosts() {
       
     }

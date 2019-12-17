@@ -7,7 +7,7 @@
                 <div class="form-group">
                 <label for="name" class="control-label">Имя пользователя</label>
                 <div class="form-input-box">
-                    <input type="text" class="form-control" id="name" placeholder="Имя пользователя" required>
+                    <input type="text" class="form-control" id="name" placeholder="Имя пользователя" v-model="users[0].name" required>
                 </div>
                 <label for="phone" class="control-label">Телефон</label>
                 <div class="form-input-box">
@@ -30,7 +30,7 @@
                     <input type="checkbox" value="В архиве" name="archive" id="archive" />
                 </div>
                 </div>
-                <button type="submit" class="btn btn-primary" @submit="editItem()"><span>OK</span></button>
+                <button type="submit" class="btn btn-primary"><span>OK</span></button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" @click="editCancel" aria-label="Close"><span>Отмена</span></button>
                 <br>
                 <br>
@@ -44,6 +44,7 @@
 <script>
 export default {
     name: 'modal',
+    props: ['users'],
     methods: {
         addUser() {
             if(!this.edit)
@@ -62,14 +63,6 @@ export default {
             // $('#modal').modal('hide');
             this.item = {name: '',phone: '',birthday: '',role: '', isArchive: false};
         },
-        editItem(id) {
-            this.edit = true;
-            this.editIndex = id;
-            this.item = this.users[id];
-        
-            // $('#modal').modal('show');
-
-        },
         editCancel() {
             this.item = {name: '',phone: '',birthday: '',role: '',isArchive: false};
             this.editIndex = -1;
@@ -79,6 +72,7 @@ export default {
 </script>
 <style lang="sass">
     .modal
+        position: relative
         display: flex
 
 </style>
