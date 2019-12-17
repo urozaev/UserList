@@ -13,6 +13,7 @@
     "core-js": "^3.4.3",
     "node-sass": "^4.13.0",
     "sass-loader": "^8.0.0",
+    "serialize-javascript": "^2.1.2",
     "vue": "^2.6.11",
     "vue-inputmask-ng": "0.0.20",
     "vue-loader": "^15.8.3"
