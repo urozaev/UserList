@@ -1,2 +1,4 @@
 # UserList
-Developin user list by Vue.js
+
+## My first application with **[Vue.js](https://cli.vuejs.org/ru/guide/)**
+
