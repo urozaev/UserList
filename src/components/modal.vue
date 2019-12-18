@@ -71,8 +71,8 @@ export default {
 }
 </script>
 <style lang="sass">
-    .modal
-        position: relative
-        display: flex
+    // .modal
+    //     position: relative
+    //     display: flex
 
 </style>

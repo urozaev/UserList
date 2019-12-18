@@ -3,8 +3,8 @@
     
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <HelloWorld msg="Actions wit da users list"/>
-    <user :users='users' @remove-user="removeUser"></user>
-    <modal :users='users'></modal>
+    <user :users='users' @remove-user="removeUser" @edit-info="editInfo"></user>
+    <modal id="modal-1" :users='users'></modal>
     
   </main>
 </template>
@@ -53,6 +53,7 @@ export default {
             "birthday": "29.11.1990"
           }
       ],
+      modalShow: false,
       edit: false,
       editIndex: -1
     }
@@ -68,7 +69,11 @@ export default {
   },
   methods: {
     removeUser(elem){
+      
       this.users.splice(elem, 1)
+    },
+    editInfo(elem){
+      alert(this.users[elem].name)
     },
     getAllPosts() {
       
