@@ -14,7 +14,7 @@
                     <span>Номер телефона:<br>{{user.phone}}</span>
                 </div>
                     
-                <button type="button" class="user__edit-btn btn btn-primary" @click="modalShow = !modalShow, editInfo(index)">
+                <button type="button" class="user__edit-btn btn btn-primary" @click="editInfo(index)">
                     <span aria-hidden="true">Изменить</span>
                 </button>
                 <button type="button" class="btn btn-delete" @click="removeUser(index)">
@@ -31,12 +31,15 @@ import modal from './modal'
 
 export default {
     name: 'user',
+        data() {
+            return {
+                modalShow: false
+            }
+    },
     props: [
         "users",
-        "modalShow",
         "value"
     ],
-    modalShow: false,
     components: {
         modal
     },
@@ -45,6 +48,7 @@ export default {
             this.$emit('remove-user', index)
         },
         editInfo(index) {
+            // this.modalShow = !this.modalShow,
             this.$emit('edit-info', index)
         }
     }

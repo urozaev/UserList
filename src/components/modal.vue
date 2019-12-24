@@ -46,7 +46,6 @@ export default {
     name: 'modal',
     props: [
         "value",
-        "modalShow",
         ],
     methods: {
         updateValue() {
@@ -55,31 +54,7 @@ export default {
                 phone: this.$refs.phonePicker.value,
                 bday: this.$refs.bdayPicker.value
             })
-        },
-        // showModal() {
-        //     this.$root.$emit('bv::show::modal', 'modal', '#btnShow')
-        // }
-        // addUser() {
-        //     if(!this.edit)
-        //         {
-        //         this.item.id = this.users.length + 1
-        //         this.users.push(this.item);
-            
-        //         } else {
-        //         this.users[this.editIndex] = this.item;
-        //         this.edit = false;
-        //         this.editIndex = -1;
-        //         }
-                
-        //         this.saveUsers();
-
-        //     // $('#modal').modal('hide');
-        //     this.item = {name: '',phone: '',bday: '',role: '', isArchive: false};
-        // },
-        // editCancel() {
-        //     this.item = {name: '',phone: '',bday: '',role: '',isArchive: false};
-        //     this.editIndex = -1;
-        // },
+        }
     }
 }
 </script>
