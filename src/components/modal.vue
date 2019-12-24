@@ -3,19 +3,19 @@
         <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
             <div class="modal-body">
-            <form id="userForm" class="form-horizontal user-form" @submit.prevent="addUser()" action="" method="GET">
+            <form id="userForm" class="form-horizontal user-form" action="" method="GET">
                 <div class="form-group">
                 <label for="name" class="control-label">Имя пользователя</label>
                 <div class="form-input-box">
-                    <input type="text" class="form-control" id="name" placeholder="Имя пользователя" v-model="users[0].name" required>
+                    <input type="text" class="form-control" ref="namePicker" id="name" placeholder="Имя пользователя" :value="value[1].name" @input="updateValue()" required>
                 </div>
                 <label for="phone" class="control-label">Телефон</label>
                 <div class="form-input-box">
-                    <input type="tel" class="form-control" id="phone" placeholder="Телефон" v-mask="`+# (###) ### ## ##`" required>
+                    <input type="tel" class="form-control" ref="phonePicker" id="phone" placeholder="Телефон" v-mask="`+# (###) ### ## ##`" :value="value.phone" @input="updateValue()" required>
                 </div>
-                <label for="user-birthday" class="control-label">Дата рождения</label>
+                <label for="user-bday" class="control-label">Дата рождения</label>
                 <div class="form-input-box">
-                    <input type="text" name="birthday" class="form-control" id="birthday" placeholder="Дата рождения" v-mask="`##/##/####`" required>
+                    <input type="text" name="bday" class="form-control" ref="bdayPicker" id="bday" placeholder="Дата рождения" v-mask="`##/##/####`" :value="value.bday" @input="updateValue()" required>
                 </div>
                 <label for="user-role" class="control-label">Специальность</label>
                 <div class="form-input-box">
@@ -31,7 +31,7 @@
                 </div>
                 </div>
                 <button type="submit" class="btn btn-primary"><span>OK</span></button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" @click="editCancel" aria-label="Close"><span>Отмена</span></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close"><span>Отмена</span></button>
                 <br>
                 <br>
                 <button type="submit" class="user__remove-btn btn btn-primary" @click="removeUser()"><span aria-hidden="true">Удалить</span></button>
@@ -44,35 +44,48 @@
 <script>
 export default {
     name: 'modal',
-    props: ['users'],
+    props: [
+        "value",
+        "modalShow",
+        ],
     methods: {
-        addUser() {
-            if(!this.edit)
-                {
-                this.item.id = this.users.length + 1
-                this.users.push(this.item);
+        updateValue() {
+            this.$emit('input', {
+                name: this.$refs.namePicker.value,
+                phone: this.$refs.phonePicker.value,
+                bday: this.$refs.bdayPicker.value
+            })
+        },
+        // showModal() {
+        //     this.$root.$emit('bv::show::modal', 'modal', '#btnShow')
+        // }
+        // addUser() {
+        //     if(!this.edit)
+        //         {
+        //         this.item.id = this.users.length + 1
+        //         this.users.push(this.item);
             
-                } else {
-                this.users[this.editIndex] = this.item;
-                this.edit = false;
-                this.editIndex = -1;
-                }
+        //         } else {
+        //         this.users[this.editIndex] = this.item;
+        //         this.edit = false;
+        //         this.editIndex = -1;
+        //         }
                 
-                this.saveUsers();
+        //         this.saveUsers();
 
-            // $('#modal').modal('hide');
-            this.item = {name: '',phone: '',birthday: '',role: '', isArchive: false};
-        },
-        editCancel() {
-            this.item = {name: '',phone: '',birthday: '',role: '',isArchive: false};
-            this.editIndex = -1;
-        },
+        //     // $('#modal').modal('hide');
+        //     this.item = {name: '',phone: '',bday: '',role: '', isArchive: false};
+        // },
+        // editCancel() {
+        //     this.item = {name: '',phone: '',bday: '',role: '',isArchive: false};
+        //     this.editIndex = -1;
+        // },
     }
 }
 </script>
 <style lang="sass">
-    // .modal
-    //     position: relative
-    //     display: flex
+    .modal
+        position: relative
+        display: flex
 
 </style>

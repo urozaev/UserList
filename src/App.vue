@@ -4,7 +4,10 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <HelloWorld msg="Actions wit da users list"/>
     <user :users='users' @remove-user="removeUser" @edit-info="editInfo"></user>
-    <modal id="modal-1" :users='users'></modal>
+    <!-- <h5>{{userInfo.name}}/{{userInfo.phone}}</h5> -->
+    <!-- <modal :users='users' v-model="userInfo"></modal> -->
+    
+
     
   </main>
 </template>
@@ -17,7 +20,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import HelloWorld from './components/HelloWorld.vue'
 import user from './components/user'
-import modal from './components/modal'
+// import modal from './components/modal'
 Vue.use(BootstrapVue)
 Vue.use(VueInputMask)
 
@@ -26,8 +29,7 @@ export default {
   data() {
     return {
       posts: null,
-      // endpoint: 'https://jsonplaceholder.typicode.com/posts/',
-      item: {name: '', phone: '', birthday: '', role: '', isArchive: false},
+      // modalShow: false,
       users: [  {
             "id": 1,
             "name": "Илья Емельянов",
@@ -53,19 +55,21 @@ export default {
             "birthday": "29.11.1990"
           }
       ],
-      modalShow: false,
-      edit: false,
-      editIndex: -1
+      content: '',
+      // endpoint: 'https://jsonplaceholder.typicode.com/posts/',
+      // item: {name: '', phone: '', birthday: '', role: '', isArchive: false},
+      // modalShow: false,
+      // edit: false,
+      // editIndex: -1
     }
   },
-
   created() {
     this.getAllPosts();
   },
   components: {
     HelloWorld,
     user,
-    modal
+    // modal
   },
   methods: {
     removeUser(elem){
@@ -73,7 +77,8 @@ export default {
       this.users.splice(elem, 1)
     },
     editInfo(elem){
-      alert(this.users[elem].name)
+      alert(this.users[elem].name),
+      this.users[elem].modalShow = true
     },
     getAllPosts() {
       
@@ -92,6 +97,11 @@ export default {
   color: #2c3e50
   padding-top: 60px
   background: linear-gradient(to bottom left,#724fee 10%,#7b3d8c)
+
+  h5
+    color: #fff
+    font-size: 24px
+    font-weight: 700
 
 
 

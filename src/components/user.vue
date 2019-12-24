@@ -1,5 +1,7 @@
 <template>
     <div class="creatin">
+        <!-- <b-modal v-model="modalShow">Hello From Modal!</b-modal> -->
+        <modal :value="users" ></modal>
         <ul class="list-group user__list">
             <li class="col-md-4 list-group-item user" v-for="(user, index) in users" :key='index'>
                 <div class="content">
@@ -12,26 +14,37 @@
                     <span>Номер телефона:<br>{{user.phone}}</span>
                 </div>
                     
-                <button type="button" class="user__edit-btn btn btn-primary" @click="editInfo(index)" ref="btnShow">
+                <button type="button" class="user__edit-btn btn btn-primary" @click="modalShow = !modalShow, editInfo(index)">
                     <span aria-hidden="true">Изменить</span>
                 </button>
                 <button type="button" class="btn btn-delete" @click="removeUser(index)">
                     <span aria-hidden="true">Удалить</span>
                 </button>
+                <!-- <b-button @click="modalShow = !modalShow">Open Modal</b-button> -->
             </li>
         </ul>
+        
     </div>
 </template>
 <script>
+import modal from './modal'
+
 export default {
     name: 'user',
-    props: ['users'],
+    props: [
+        "users",
+        "modalShow",
+        "value"
+    ],
+    modalShow: false,
+    components: {
+        modal
+    },
     methods: {
         removeUser(index) {
             this.$emit('remove-user', index)
         },
         editInfo(index) {
-            this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow')
             this.$emit('edit-info', index)
         }
     }
