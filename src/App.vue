@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       posts: null,
-      // modalShow: false,
+      // showModal: false,
       users: [  {
             "id": 1,
             "name": "Илья Емельянов",
@@ -78,7 +78,7 @@ export default {
     },
     editInfo(elem){
       alert(this.users[elem].name)
-      // this.users[elem].modalShow = true
+      // this.showModal = true
     },
     getAllPosts() {
       

@@ -31,7 +31,7 @@
                 </div>
                 </div>
                 <button type="submit" class="btn btn-primary"><span>OK</span></button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close"><span>Отмена</span></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close" @click="closeModal()"><span>Отмена</span></button>
                 <br>
                 <br>
                 <button type="submit" class="user__remove-btn btn btn-primary" @click="removeUser()"><span aria-hidden="true">Удалить</span></button>
@@ -41,11 +41,13 @@
         </div>
     </div>
 </template>
+
 <script>
 export default {
     name: 'modal',
     props: [
         "value",
+        "showModal"
         ],
     methods: {
         updateValue() {
@@ -54,6 +56,9 @@ export default {
                 phone: this.$refs.phonePicker.value,
                 bday: this.$refs.bdayPicker.value
             })
+        },
+        closeModal(index) {
+            this.$emit('show-modal', index)
         }
     }
 }
