@@ -1,7 +1,7 @@
 <template>
     <div class="creatin">
         
-        <modal v-if="showModal" @close="showModal = false" :value="users" @close-modal="closeModal"></modal>
+        <userForm :userId="userId" v-if="showModal"></userForm>
         <ul class="list-group user__list">
             <li class="col-md-4 list-group-item user" v-for="(user, index) in users" :key='index'>
                 <div class="content">
@@ -15,7 +15,7 @@
                 </div>
                     
 
-                <button type="button" class="user__edit-btn btn btn-primary" @click="editInfo(index)">
+                <button type="button" class="user__edit-btn btn btn-primary" @click="editInfo(user.id)">
                     <span aria-hidden="true">Изменить</span>
                 </button>
                 <button type="button" class="btn btn-delete" @click="removeUser(index)">
@@ -27,21 +27,43 @@
     </div>
 </template>
 <script>
-import modal from './modal'
+import userForm from './userForm'
 
 export default {
-    name: 'user',
+    name: 'users',
     data() {
         return{
-            showModal: false
+            userId: null,
+            showModal: false,
+            users: [  {
+                "id": 1,
+                "name": "Илья Емельянов",
+                "isArchive": false,
+                "role": "developer",
+                "phone": "+7 (883) 508-3269",
+                "birthday": "12.02.1982"
+            },
+            {
+                "id": 2,
+                "name": "Александр Ларионов",
+                "isArchive": true,
+                "role": "manager",
+                "phone": "+7 (823) 440-3602",
+                "birthday": "26.01.1986"
+            },
+            {
+                "id": 3,
+                "name": "Богдан Давыдов",
+                "isArchive": false,
+                "role": "developer",
+                "phone": "+7 (971) 575-2645",
+                "birthday": "29.11.1990"
+            }
+      ],
         }
     },
-    props: [
-        "users",
-        "value"
-    ],
     components: {
-        modal
+        userForm
     },
     methods: {
         removeUser(index) {
@@ -49,6 +71,7 @@ export default {
         },
         editInfo(index) {
             // this.$emit('show-modal', true),
+            this.userId = index
             this.showModal = true
             this.$emit('edit-info', index)
         },

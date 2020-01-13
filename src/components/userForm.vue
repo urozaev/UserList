@@ -7,15 +7,15 @@
                 <div class="form-group">
                 <label for="name" class="control-label">Имя пользователя</label>
                 <div class="form-input-box">
-                    <input type="text" class="form-control" ref="namePicker" id="name" placeholder="Имя пользователя" :value="value[1].name" @input="updateValue()" required>
+                    <input type="text" class="form-control" ref="namePicker" id="name" placeholder="Имя пользователя" v-bind="name" v-model="name" @input="updateValue()" required>
                 </div>
                 <label for="phone" class="control-label">Телефон</label>
                 <div class="form-input-box">
-                    <input type="tel" class="form-control" ref="phonePicker" id="phone" placeholder="Телефон" v-mask="`+# (###) ### ## ##`" :value="value.phone" @input="updateValue()" required>
+                    <input type="tel" class="form-control" ref="phonePicker" id="phone" placeholder="Телефон" v-mask="`+# (###) ### ## ##`" @input="updateValue()" required>
                 </div>
                 <label for="user-bday" class="control-label">Дата рождения</label>
                 <div class="form-input-box">
-                    <input type="text" name="bday" class="form-control" ref="bdayPicker" id="bday" placeholder="Дата рождения" v-mask="`##/##/####`" :value="value.bday" @input="updateValue()" required>
+                    <input type="text" name="bday" class="form-control" ref="bdayPicker" id="bday" placeholder="Дата рождения" v-mask="`##/##/####`"  @input="updateValue()" required>
                 </div>
                 <label for="user-role" class="control-label">Специальность</label>
                 <div class="form-input-box">
@@ -45,8 +45,22 @@
 <script>
 export default {
     name: 'modal',
+    data (){
+        return {
+            "name": "",
+            "isArchive": false,
+            "role": "",
+            "phone": "",
+            "birthday": ""
+        }
+    },
+    mounted: function() {
+        if (this.userId) {
+            this.name = 'Ivan Ivan'
+        }
+    },
     props: [
-        "value",
+        "userId",
         "showModal"
         ],
     methods: {
