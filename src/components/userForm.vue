@@ -7,7 +7,7 @@
                 <div class="form-group">
                 <label for="name" class="control-label">Имя пользователя</label>
                 <div class="form-input-box">
-                    <input type="text" class="form-control" ref="namePicker" id="name" placeholder="Имя пользователя" v-bind="name" v-model="name" @input="updateValue()" required>
+                    <input type="text" class="form-control" id="name" placeholder="Имя пользователя" :name="name" v-model="name" @input="updateValue()" required>
                 </div>
                 <label for="phone" class="control-label">Телефон</label>
                 <div class="form-input-box">
