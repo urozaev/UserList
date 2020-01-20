@@ -20,7 +20,7 @@
                     <td>{{user.role}}</td>
                     <td>{{user.isArchive}}</td>
                     <td>
-                        <button class="btn btn-info" type="button" v-b-modal.modalForm @click="getUser(user)"> Edit </button> / <button class="btn btn-danger" type="button"> Remove </button>
+                        <button class="btn btn-info" type="button" v-b-modal.modalForm @click="getUser(user)"> Edit </button> / <button @click="deleteUser(index)" class="btn btn-danger" type="button"> Remove </button>
                     </td>
                 </tr>
             </tbody>
@@ -180,6 +180,9 @@ export default {
       },
       getUser(index) {
           this.user = index
+      },
+      deleteUser(elem){
+          this.users.splice(elem, 1)
       },
       handleOk(bvModalEvt) {
         // Prevent modal from closing
