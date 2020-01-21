@@ -1,5 +1,7 @@
 <template>
     <div class="creatin container">
+        <!-- <userForm></userForm> -->
+
         <table class="table table-hover table-dark">
             <thead>
                 <tr>
@@ -68,8 +70,10 @@
         
     </div>
 </template>
+
 <script>
 import { mapGetters, mapActions } from 'vuex'
+// import userForm from './components/userForm.vue'
 
 export default {
     name: 'users',
@@ -96,6 +100,9 @@ export default {
             ]
         }
     },
+    // components: {
+    //     // userForm
+    // },
     methods: {
         ...mapActions(['fetchUsers']),
         checkFormValidity() {

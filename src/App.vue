@@ -2,7 +2,8 @@
   <main id="app">
     
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <HelloWorld msg="Actions with the user list"/>
+    <!-- <HelloWorld msg="Actions with the user list"/> -->
+    <h1>{{title}}</h1>
     <router-view></router-view>
     <users @remove-user="removeUser" @edit-info="editInfo"></users>
     <!-- <h5>{{userInfo.name}}/{{userInfo.phone}}</h5> -->
@@ -19,7 +20,7 @@ import BootstrapVue from 'bootstrap-vue'
 import VueInputMask from 'vue-inputmask-ng'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
 import users from './components/users'
 import vmodal from 'vue-js-modal'
 // import modal from './components/modal'
@@ -33,13 +34,13 @@ export default {
     return {
       posts: null,
       content: '',
+      title: 'User list App'
     }
   },
   created() {
     this.getAllPosts();
   },
   components: {
-    HelloWorld,
     users
   },
   methods: {
@@ -72,6 +73,10 @@ export default {
   h5
     color: #fff
     font-size: 24px
+    font-weight: 700
+
+  h1
+    color: #fff
     font-weight: 700
 
 
