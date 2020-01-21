@@ -32,13 +32,7 @@ export default {
   data() {
     return {
       posts: null,
-      // showModal: false,
       content: '',
-      // endpoint: 'https://jsonplaceholder.typicode.com/posts/',
-      // item: {name: '', phone: '', birthday: '', role: '', isArchive: false},
-      // modalShow: false,
-      // edit: false,
-      // editIndex: -1
     }
   },
   created() {

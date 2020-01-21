@@ -12,7 +12,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(user, index) in users" :key='index'>
+                <tr v-for="(user, index) in allUsers" :key='index'>
                     <th>{{user.id}}</th>
                     <td>{{user.name}}</td>
                     <td>{{user.birthday}}</td>
@@ -69,43 +69,13 @@
     </div>
 </template>
 <script>
-// import userForm from './userForm'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     name: 'users',
-    // computed: {
-    //     users() {
-    //         return this.$store.state.users;
-    //     }
-    // },
+    computed: mapGetters(["allUsers"]),
     data() {
         return{
-            users: [  
-                {
-                    "id": 1,
-                    "name": "Илья Емельянов",
-                    "isArchive": false,
-                    "role": "developer",
-                    "phone": "+7 (883) 508-3269",
-                    "birthday": "12.02.1982"
-                },
-                {
-                    "id": 2,
-                    "name": "Александр Ларионов",
-                    "isArchive": true,
-                    "role": "manager",
-                    "phone": "+7 (823) 440-3602",
-                    "birthday": "26.01.1986"
-                },
-                {
-                    "id": 3,
-                    "name": "Богдан Давыдов",
-                    "isArchive": false,
-                    "role": "developer",
-                    "phone": "+7 (971) 575-2645",
-                    "birthday": "29.11.1990"
-                }
-            ],
             user: {
                 name: '',
                 isArchive: false,
@@ -127,42 +97,47 @@ export default {
         }
     },
     methods: {
-      checkFormValidity() {
-        const valid = this.$refs.form.checkValidity()
-        this.nameState = valid
-        return valid
-      },
-      resetModal() {
-        this.name = ''
-        this.nameState = null
-      },
-      getUser(index) {
-          this.user = index
-      },
-      deleteUser(elem){
-          this.users.splice(elem, 1)
-      },
-      handleOk(bvModalEvt) {
-        // Prevent modal from closing
-        bvModalEvt.preventDefault()
-        // Trigger submit handler
-        this.handleSubmit()
-      },
-      handleSubmit() {
-        // Exit when the form isn't valid
-        if (!this.checkFormValidity()) {
-          return
+        ...mapActions(['fetchUsers']),
+        checkFormValidity() {
+            const valid = this.$refs.form.checkValidity()
+            this.nameState = valid
+            return valid
+        },
+        resetModal() {
+            this.name = ''
+            this.nameState = null
+        },
+        getUser(index) {
+            this.user = index
+        },
+        deleteUser(elem){
+            this.users.splice(elem, 1)
+        },
+        handleOk(bvModalEvt) {
+            // Prevent modal from closing
+            bvModalEvt.preventDefault()
+            // Trigger submit handler
+            this.handleSubmit()
+        },
+        handleSubmit() {
+            // Exit when the form isn't valid
+            if (!this.checkFormValidity()) {
+            return
+            }
+            // Push the name to submitted names
+            this.submittedNames.push(this.user.name)
+            // Hide the modal manually
+            this.$nextTick(() => {
+            this.$bvModal.hide('modalForm')
+            })
         }
-        // Push the name to submitted names
-        this.submittedNames.push(this.user.name)
-        // Hide the modal manually
-        this.$nextTick(() => {
-          this.$bvModal.hide('modalForm')
-        })
-      }
-    }
+    },
+    async mounted() {
+        this.fetchUsers();
+    },
 }
 </script>
+
 <style lang="sass" scoped>
     .creatin
         width: 100%
