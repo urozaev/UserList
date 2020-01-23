@@ -24,7 +24,7 @@
                     <td>{{user.role}}</td>
                     <td>{{user.isArchive}}</td>
                     <td>
-                        <button class="btn btn-info" type="button" v-b-modal.modalForm @click="getUser(user)"> Edit </button> / <button @click="deleteUser(user)" class="btn btn-danger" type="button"> Remove </button>
+                        <button class="btn btn-info" type="button" v-b-modal.modalForm @click="editUser(user)"> Edit </button> / <button @click="deleteUser(user)" class="btn btn-danger" type="button"> Remove </button>
                     </td>
                 </tr>
             </tbody>
@@ -46,8 +46,7 @@
             centered
             ref="modal"
             title="User info"
-            @show="resetModal"
-            @hidden="resetModal"
+
             
             @ok="handleOk"
             >
@@ -105,7 +104,8 @@ export default {
     },
     methods: {
         ...mapActions(['fetchUsers']),
-        ...mapMutations(['createUser', 'deleteUser']),
+        ...mapMutations(['createUser', 'deleteUser', 'editUser']),
+
         checkFormValidity() {
             const valid = this.$refs.form.checkValidity()
             this.nameState = valid
@@ -113,17 +113,22 @@ export default {
             this.phoneState = valid
             return valid
         },
+
         resetModal() {
             this.name = ''
             this.nameState = null
             // this.name = Object.assign({}, this.user);
         },
-        getUser(index) {
-            this.user = index
-        },
+
         deleteUser(elem){
             this.$store.commit('deleteUser', elem)
         },
+
+        editUser(userElem){
+            this.user = userElem
+            this.$store.commit('editUser', userElem)
+        },
+
         handleOk(bvModalEvt) {
             // Prevent modal from closing
             bvModalEvt.preventDefault()
@@ -131,23 +136,15 @@ export default {
             // Trigger submit handler
             this.eventSubmit()
         },
+        
         eventSubmit() {
             // Exit when the form isn't valid
             if (!this.checkFormValidity()) {
-            return
+                return
             }
-            // Push the name to submitted names
-            this.createUser({
-                id: this.allUsers.length + 1,
-                name: this.user.name,
-                birthday: this.user.birthday,
-                phone: this.user.phone,
-                role: this.user.role,
-                isArchive: this.user.isArchive
-            })
 
-            this.name = this.phone = '';
-            // this.submittedNames.push(this.user)
+            this.createUser(this.user)
+
             // Hide the modal manually
             this.$nextTick(() => {
                 this.$bvModal.hide('modalForm')

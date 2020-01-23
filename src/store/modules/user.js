@@ -14,6 +14,7 @@ export default {
             state.users = users
         },
         createUser(state, newUser) {
+            newUser.id = state.users.length + 1
             state.users.push(newUser)
         },
         deleteUser(state, userId) {
@@ -21,6 +22,12 @@ export default {
                 return user.id == userId;
             })
             state.users.splice(state.users.indexOf(userId), 1)
+        },
+        editUser(state, userId){
+            state.users.find(user => {
+                return user.id == userId;
+            })
+            state.users.indexOf(userId)
         }
     },
     state: {

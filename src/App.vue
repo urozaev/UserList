@@ -44,13 +44,6 @@ export default {
     users
   },
   methods: {
-    removeUser(elem){
-      this.users.splice(elem, 1)
-    },
-    editInfo(elem){
-      alert(this.users[elem].name)
-      // this.showModal = true
-    },
     getAllPosts() {
       
     }
