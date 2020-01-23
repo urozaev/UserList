@@ -1,13 +1,9 @@
 <template>
   <main id="app">
-    
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <HelloWorld msg="Actions with the user list"/> -->
+
     <h1>{{title}}</h1>
     <router-view></router-view>
-    <users @remove-user="removeUser" @edit-info="editInfo"></users>
-    <!-- <h5>{{userInfo.name}}/{{userInfo.phone}}</h5> -->
-    <!-- <modal :users='users' v-model="userInfo"></modal> -->
+    <users></users>
     
 
     

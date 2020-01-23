@@ -11,7 +11,7 @@
                 <th scope="col">Role</th>
                 <th scope="col">Archive</th>
                 <th scope="col">
-                    <button type="button" class="btn btn-success" v-b-modal.modalForm>Create new user</button>
+                    <button type="button" class="btn btn-success" v-b-modal.modalForm @click="resetModal()">Create new user</button>
                 </th>
                 </tr>
             </thead>
@@ -24,30 +24,19 @@
                     <td>{{user.role}}</td>
                     <td>{{user.isArchive}}</td>
                     <td>
-                        <button class="btn btn-info" type="button" v-b-modal.modalForm @click="editUser(user)"> Edit </button> / <button @click="deleteUser(user)" class="btn btn-danger" type="button"> Remove </button>
+                        <button class="btn btn-info" type="button"  @click="editUser(user)"> Edit </button> 
+                        / 
+                        <button @click="deleteUser(user)" class="btn btn-danger" type="button"> Remove </button>
                     </td>
                 </tr>
             </tbody>
         </table>
-
-        <!-- <div class="submit-list mt-3">
-        Submitted Names:
-        <div v-if="submittedNames.length === 0">--</div>
-        <ul v-else class="mb-0 pl-3">
-            <li v-for="(submittedName, index) in submittedNames" :key="index">
-                <p>{{submittedName.name}}</p>
-            </li>
-        </ul>
-        </div> -->
-            
 
         <b-modal
             id="modalForm"
             centered
             ref="modal"
             title="User info"
-
-            
             @ok="handleOk"
             >
             <form ref="form" @submit.stop.prevent="eventSubmit">
@@ -91,7 +80,6 @@ export default {
             nameState: null,
             phoneState: null,
             birthdayState: null,
-            // submittedNames: [],
             userRoles: [
                 { value: 'designer', text: 'designer' },
                 { value: 'manager', text: 'manager' },
@@ -101,6 +89,7 @@ export default {
     },
     async mounted() {
         this.fetchUsers();
+
     },
     methods: {
         ...mapActions(['fetchUsers']),
@@ -115,9 +104,14 @@ export default {
         },
 
         resetModal() {
-            this.name = ''
+            this.user.name = ''
             this.nameState = null
-            // this.name = Object.assign({}, this.user);
+            this.user.phone = ''
+            this.phoneState = null
+            this.user.birthday = ''
+            this.birthdayState = null
+            this.user.role = ''
+            this.user.isArchive = false
         },
 
         deleteUser(elem){
@@ -125,8 +119,8 @@ export default {
         },
 
         editUser(userElem){
-            this.user = userElem
-            this.$store.commit('editUser', userElem)
+            this.$bvModal.show("modalForm")
+            this.user = Object.assign({}, userElem);
         },
 
         handleOk(bvModalEvt) {
@@ -136,7 +130,7 @@ export default {
             // Trigger submit handler
             this.eventSubmit()
         },
-        
+
         eventSubmit() {
             // Exit when the form isn't valid
             if (!this.checkFormValidity()) {
