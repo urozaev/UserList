@@ -24,7 +24,7 @@
                     <td>{{user.role}}</td>
                     <td>{{user.isArchive}}</td>
                     <td>
-                        <button class="btn btn-info" type="button" v-b-modal.modalForm @click="getUser(user)"> Edit </button> / <button @click="deleteUser(index)" class="btn btn-danger" type="button"> Remove </button>
+                        <button class="btn btn-info" type="button" v-b-modal.modalForm @click="getUser(user)"> Edit </button> / <button @click="deleteUser(user)" class="btn btn-danger" type="button"> Remove </button>
                     </td>
                 </tr>
             </tbody>
@@ -122,9 +122,7 @@ export default {
             this.user = index
         },
         deleteUser(elem){
-            this.deleteUser(
-                this.allUsers.splice(elem, 1)
-            )
+            this.$store.commit('deleteUser', elem)
         },
         handleOk(bvModalEvt) {
             // Prevent modal from closing
@@ -147,6 +145,8 @@ export default {
                 role: this.user.role,
                 isArchive: this.user.isArchive
             })
+
+            this.name = this.phone = '';
             // this.submittedNames.push(this.user)
             // Hide the modal manually
             this.$nextTick(() => {

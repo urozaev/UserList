@@ -16,10 +16,11 @@ export default {
         createUser(state, newUser) {
             state.users.push(newUser)
         },
-        deleteUser(state, theUser) {
-            state.users = theUser
-            // state.users.splice(theUser, 1)
-            // state.users.push(newUser)
+        deleteUser(state, userId) {
+            state.users.find(user => {
+                return user.id == userId;
+            })
+            state.users.splice(state.users.indexOf(userId), 1)
         }
     },
     state: {
