@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 <template>
     <div class="creatin container">
 
@@ -42,7 +43,7 @@
             >
             <form ref="form" @submit.stop.prevent="eventSubmit">
                 <b-form-group :state="nameState" label="Name" label-for="name-input" invalid-feedback="Name is required">
-                    <b-form-input id="name-input" v-model="user.name" :state="nameState" required></b-form-input>
+                    <b-form-input id="name-input" v-model="cachedUser.name" :state="nameState" required></b-form-input>
                 </b-form-group>
                 <b-form-group :state="birthdayState" label="Birthday" label-for="birthday-input" invalid-feedback="Fill in birthday field">
                     <b-form-input id="birthday-input" v-model="user.birthday" :state="birthdayState" v-mask="`##/##/####`" required></b-form-input>
@@ -97,7 +98,7 @@ export default {
     },
     methods: {
         ...mapActions(['fetchUsers']),
-        ...mapMutations(['createUser', 'deleteUser', 'editUser']),
+        ...mapMutations(['createUser', 'deleteUser', 'editUser', 'updateUser']),
 
         checkFormValidity() {
             const valid = this.$refs.form.checkValidity()
@@ -109,7 +110,16 @@ export default {
 
         resetModal() {
             this.$bvModal.show("modalForm")
-            Object.assign(this.$data, this.$options.data())
+            // Object.assign(this.$data, this.$options.data())
+            this.cachedUser = {
+                id: "",
+                name: "",
+                isArchive: false,
+                role: "",
+                phone: "",
+                birthday: "",
+            }
+            
         },
 
         deleteUser(elem){
@@ -134,11 +144,15 @@ export default {
 
         handleCancel(bvModalEvt) {
             bvModalEvt.preventDefault()
-            if (this.isEditing) {
-                this.user = Object.assign({}, this.cachedUser)
-            }
-            this.user = this.user
-
+            // if (this.isEditing) {
+            //     this.user = Object.assign({}, this.cachedUser)
+            // }
+            // this.user = this.user
+            // eslint-disable-next-line no-debugger
+            // Hide the modal manually
+            this.$nextTick(() => {
+                this.$bvModal.hide('modalForm')
+            })
             // this.eventSubmit()
         },
 
@@ -150,6 +164,8 @@ export default {
 
             if (!this.isEditing) {
                 this.createUser(Object.assign({}, this.user))
+            } else {
+                this.updateUser(this.cachedUser)
             }
 
             // Hide the modal manually
