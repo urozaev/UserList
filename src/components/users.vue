@@ -39,14 +39,14 @@
             ref="modal"
             title="User info"
             @ok="handleOk"
-            @cancel="handleCancel"
+        
             >
             <form ref="form" @submit.stop.prevent="eventSubmit">
                 <b-form-group :state="nameState" label="Name" label-for="name-input" invalid-feedback="Name is required">
                     <b-form-input id="name-input" v-model="cachedUser.name" :state="nameState" required></b-form-input>
                 </b-form-group>
                 <b-form-group :state="birthdayState" label="Birthday" label-for="birthday-input" invalid-feedback="Fill in birthday field">
-                    <b-form-input id="birthday-input" v-model="user.birthday" :state="birthdayState" v-mask="`##/##/####`" required></b-form-input>
+                    <b-form-input id="birthday-input" v-model="cachedUser.birthday" :state="birthdayState" v-mask="`##/##/####`" required></b-form-input>
                 </b-form-group>
                 <b-form-group :state="phoneState" label="Phone" label-for="phone-input" invalid-feedback="Fill in phone field">
                     <b-form-input id="phone-input" v-model="user.phone" :state="phoneState" v-mask="`+# (###) ### ## ##`" required></b-form-input>
@@ -82,6 +82,7 @@ export default {
             nameState: null,
             phoneState: null,
             birthdayState: null,
+            
             userRoles: [
                 { value: 'designer', text: 'designer' },
                 { value: 'manager', text: 'manager' },
@@ -109,16 +110,29 @@ export default {
         },
 
         resetModal() {
-            this.$bvModal.show("modalForm")
+           
             // Object.assign(this.$data, this.$options.data())
-            this.cachedUser = {
-                id: "",
-                name: "",
-                isArchive: false,
-                role: "",
-                phone: "",
-                birthday: "",
-            }
+            // this.cachedUser = {
+            //     id: "",
+            //     name: "",
+            //     isArchive: false,
+            //     role: "",
+            //     phone: "",
+            //     birthday: "",
+            // }
+            this.isEditing = false
+
+            this.cachedUser.name = ""
+            this.cachedUser.birthday = ""
+
+            this.nameState = null,
+            this.phoneState = null,
+            this.birthdayState = null,
+
+            this.nameState = null
+            this.$bvModal.show("modalForm")
+
+            
             
         },
 
@@ -128,6 +142,7 @@ export default {
 
         editUser(userElem){
             this.isEditing = true
+
             this.$bvModal.show("modalForm")
             this.user = userElem
 
@@ -142,20 +157,6 @@ export default {
             this.eventSubmit()
         },
 
-        handleCancel(bvModalEvt) {
-            bvModalEvt.preventDefault()
-            // if (this.isEditing) {
-            //     this.user = Object.assign({}, this.cachedUser)
-            // }
-            // this.user = this.user
-            // eslint-disable-next-line no-debugger
-            // Hide the modal manually
-            this.$nextTick(() => {
-                this.$bvModal.hide('modalForm')
-            })
-            // this.eventSubmit()
-        },
-
         eventSubmit() {
             // Exit when the form isn't valid
             if (!this.checkFormValidity()) {
@@ -163,7 +164,9 @@ export default {
             }
 
             if (!this.isEditing) {
-                this.createUser(Object.assign({}, this.user))
+                this.createUser(this.cachedUser)
+                this.user = this.cachedUser
+
             } else {
                 this.updateUser(this.cachedUser)
             }
