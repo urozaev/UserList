@@ -1,25 +1,25 @@
 <template>
+
   <main id="app">
 
     <h1>{{title}}</h1>
     <router-view></router-view>
     <users></users>
-    
 
-    
   </main>
+
 </template>
 
 <script>
+
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueInputMask from 'vue-inputmask-ng'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-// import HelloWorld from './components/HelloWorld.vue'
 import users from './components/users'
 import vmodal from 'vue-js-modal'
-// import modal from './components/modal'
+
 Vue.use(vmodal)
 Vue.use(BootstrapVue)
 Vue.use(VueInputMask)
@@ -28,21 +28,11 @@ export default {
   name: 'app',
   data() {
     return {
-      posts: null,
-      content: '',
-      title: 'User list App'
+      title: 'User List App'
     }
-  },
-  created() {
-    this.getAllPosts();
   },
   components: {
     users
-  },
-  methods: {
-    getAllPosts() {
-      
-    }
   }
 }
 </script>
@@ -67,7 +57,5 @@ export default {
   h1
     color: #fff
     font-weight: 700
-
-
 
 </style>

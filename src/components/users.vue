@@ -39,6 +39,7 @@
             ref="modal"
             title="User info"
             @ok="handleOk"
+            
         
             >
             <form ref="form" @submit.stop.prevent="eventSubmit">
@@ -49,13 +50,13 @@
                     <b-form-input id="birthday-input" v-model="cachedUser.birthday" :state="birthdayState" v-mask="`##/##/####`" required></b-form-input>
                 </b-form-group>
                 <b-form-group :state="phoneState" label="Phone" label-for="phone-input" invalid-feedback="Fill in phone field">
-                    <b-form-input id="phone-input" v-model="user.phone" :state="phoneState" v-mask="`+# (###) ### ## ##`" required></b-form-input>
+                    <b-form-input id="phone-input" v-model="cachedUser.phone" :state="phoneState" v-mask="`+# (###) ### ## ##`" required></b-form-input>
                 </b-form-group>
                 <b-form-group label="Role" label-for="role-input">
-                    <b-form-select id="role-input" v-model="user.role" :options="userRoles"></b-form-select>
+                    <b-form-select id="role-input" v-model="cachedUser.role" :options="userRoles"></b-form-select>
                 </b-form-group>
                 <b-form-group label="Archive" label-for="archive-checkbox">
-                    <b-form-checkbox id="archive-checkbox" v-model="user.isArchive" name="archive-checkbox"></b-form-checkbox>
+                    <b-form-checkbox id="archive-checkbox" v-model="cachedUser.isArchive" name="archive-checkbox"></b-form-checkbox>
                 </b-form-group>
             </form>
         </b-modal>
@@ -82,6 +83,8 @@ export default {
             nameState: null,
             phoneState: null,
             birthdayState: null,
+            // roleState: null,
+            // isArchiveState: null,
             
             userRoles: [
                 { value: 'designer', text: 'designer' },
@@ -110,8 +113,9 @@ export default {
         },
 
         resetModal() {
-           
-            // Object.assign(this.$data, this.$options.data())
+           // eslint-disable-next-line no-console
+           console.log('reset')
+
             // this.cachedUser = {
             //     id: "",
             //     name: "",
@@ -124,17 +128,33 @@ export default {
 
             this.cachedUser.name = ""
             this.cachedUser.birthday = ""
+            this.cachedUser.phone = ""
+            this.cachedUser.role = ""
+            this.cachedUser.isArchive = false
 
             this.nameState = null,
             this.phoneState = null,
             this.birthdayState = null,
+            // this.roleState = null,
+            // this.isArchiveState = null,
 
-            this.nameState = null
             this.$bvModal.show("modalForm")
 
             
             
         },
+
+        // cancelEvent(bvModalEvt) {
+        //     bvModalEvt.preventDefault()
+
+        //     if(this.isEditing) {
+        //         this.resetModal()
+        //     }
+            
+        //     this.$nextTick(() => {
+        //         this.$bvModal.hide('modalForm')
+        //     })
+        // },
 
         deleteUser(elem){
             this.$store.commit('deleteUser', elem)
@@ -184,7 +204,7 @@ export default {
     .creatin
         width: 100%
         height: auto
-        padding-top: 3rem
+        padding: 3rem 0
 
     button
         background: 0
