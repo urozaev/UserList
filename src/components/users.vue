@@ -1,7 +1,6 @@
 /* eslint-disable no-debugger */
 <template>
     <div class="creatin container">
-
         <table class="table table-hover table-dark">
             <thead>
                 <tr>
@@ -12,7 +11,7 @@
                     <th scope="col">Role</th>
                     <th scope="col">Archive</th>
                     <th scope="col">
-                        <button type="button" class="btn btn-success" @click="resetModal()"> Create new user </button>
+                        <button type="button" class="btn btn-success" @click="createUserForm()"> Create new user </button>
                     </th>
                 </tr>
             </thead>
@@ -25,9 +24,9 @@
                     <td>{{user.role}}</td>
                     <td>{{user.isArchive}}</td>
                     <td>
-                        <button class="btn btn-info" type="button"  @click="editUser(user)"> Edit </button> 
+                        <button class="btn btn-info" type="button" @click="updateUserForm(user)"> Edit </button> 
                         / 
-                        <button @click="deleteUser(user)" class="btn btn-danger" type="button"> Delete </button>
+                        <button class="btn btn-danger" type="button" @click="deleteUserForm(user)"> Delete </button>
                     </td>
                 </tr>
             </tbody>
@@ -39,24 +38,23 @@
             ref="modal"
             title="User info"
             @ok="handleOk"
-            
-        
-            >
+            @cancel="resetModal"
+        >
             <form ref="form" @submit.stop.prevent="eventSubmit">
                 <b-form-group :state="nameState" label="Name" label-for="name-input" invalid-feedback="Name is required">
-                    <b-form-input id="name-input" v-model="cachedUser.name" :state="nameState" required></b-form-input>
+                    <b-form-input id="name-input" v-model="user.name" :state="nameState" required></b-form-input>
                 </b-form-group>
                 <b-form-group :state="birthdayState" label="Birthday" label-for="birthday-input" invalid-feedback="Fill in birthday field">
-                    <b-form-input id="birthday-input" v-model="cachedUser.birthday" :state="birthdayState" v-mask="`##/##/####`" required></b-form-input>
+                    <b-form-input id="birthday-input" v-model="user.birthday" :state="birthdayState" v-mask="`##/##/####`" required></b-form-input>
                 </b-form-group>
                 <b-form-group :state="phoneState" label="Phone" label-for="phone-input" invalid-feedback="Fill in phone field">
-                    <b-form-input id="phone-input" v-model="cachedUser.phone" :state="phoneState" v-mask="`+# (###) ### ## ##`" required></b-form-input>
+                    <b-form-input id="phone-input" v-model="user.phone" :state="phoneState" v-mask="`+# (###) ### ## ##`" required></b-form-input>
                 </b-form-group>
                 <b-form-group label="Role" label-for="role-input">
-                    <b-form-select id="role-input" v-model="cachedUser.role" :options="userRoles"></b-form-select>
+                    <b-form-select id="role-input" v-model="user.role" :options="userRoles"></b-form-select>
                 </b-form-group>
                 <b-form-group label="Archive" label-for="archive-checkbox">
-                    <b-form-checkbox id="archive-checkbox" v-model="cachedUser.isArchive" name="archive-checkbox"></b-form-checkbox>
+                    <b-form-checkbox id="archive-checkbox" v-model="user.isArchive" name="archive-checkbox"></b-form-checkbox>
                 </b-form-group>
             </form>
         </b-modal>
@@ -67,24 +65,25 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 
+const userModel = {
+    id: "",
+    name: "",
+    isArchive: false,
+    role: "",
+    phone: "",
+    birthday: "",
+};
+
 export default {
     name: 'users',
     computed: mapGetters(["allUsers"]),
     data() {
-        return{
-            user: {
-                id: "",
-                name: "",
-                isArchive: false,
-                role: "",
-                phone: "",
-                birthday: "",
-            },
+        return {
+            user: userModel,
             nameState: null,
             phoneState: null,
             birthdayState: null,
-            // roleState: null,
-            // isArchiveState: null,
+
             
             userRoles: [
                 { value: 'designer', text: 'designer' },
@@ -93,9 +92,6 @@ export default {
             ],
             isEditing: false
         }
-    },
-    created() {
-        this.cachedUser = Object.assign({}, this.user)
     },
     async mounted() {
         this.fetchUsers();
@@ -113,60 +109,27 @@ export default {
         },
 
         resetModal() {
-           // eslint-disable-next-line no-console
-           console.log('reset')
+            this.nameState = null
+            this.phoneState = null
+            this.birthdayState = null
+        },
 
-            // this.cachedUser = {
-            //     id: "",
-            //     name: "",
-            //     isArchive: false,
-            //     role: "",
-            //     phone: "",
-            //     birthday: "",
-            // }
+        createUserForm() {
             this.isEditing = false
 
-            this.cachedUser.name = ""
-            this.cachedUser.birthday = ""
-            this.cachedUser.phone = ""
-            this.cachedUser.role = ""
-            this.cachedUser.isArchive = false
-
-            this.nameState = null,
-            this.phoneState = null,
-            this.birthdayState = null,
-            // this.roleState = null,
-            // this.isArchiveState = null,
-
+            this.user = { ...userModel }
             this.$bvModal.show("modalForm")
-
-            
-            
         },
 
-        // cancelEvent(bvModalEvt) {
-        //     bvModalEvt.preventDefault()
-
-        //     if(this.isEditing) {
-        //         this.resetModal()
-        //     }
-            
-        //     this.$nextTick(() => {
-        //         this.$bvModal.hide('modalForm')
-        //     })
-        // },
-
-        deleteUser(elem){
-            this.$store.commit('deleteUser', elem)
-        },
-
-        editUser(userElem){
+        updateUserForm(userElem){
             this.isEditing = true
 
+            this.user = { ...userElem }
             this.$bvModal.show("modalForm")
-            this.user = userElem
+        },
 
-            this.cachedUser = Object.assign({}, this.user)
+        deleteUserForm(elem){
+            this.$store.commit('deleteUser', elem)
         },
 
         handleOk(bvModalEvt) {
@@ -184,17 +147,15 @@ export default {
             }
 
             if (!this.isEditing) {
-                this.createUser(this.cachedUser)
-                this.user = this.cachedUser
-
+                this.createUser(this.user)
             } else {
-                this.updateUser(this.cachedUser)
+                this.updateUser(this.user)
             }
 
+            this.resetModal();
+
             // Hide the modal manually
-            this.$nextTick(() => {
-                this.$bvModal.hide('modalForm')
-            })
+            this.$nextTick(() => this.$bvModal.hide('modalForm'))
         }
     }
 }
