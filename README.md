@@ -1,4 +1,4 @@
 # UserList
 
-## My first application with **[Vue.js](https://cli.vuejs.org/ru/guide/)**
+## My first application in **[Vue.js](https://cli.vuejs.org/ru/guide/)**
 
