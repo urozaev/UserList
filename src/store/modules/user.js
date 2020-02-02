@@ -1,11 +1,7 @@
 export default {
     actions: {
         async fetchUsers(ctx) {
-            const res = await fetch("https://git.heroku.com/urozaev-backend.git", {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
+            const res = await fetch("http://localhost:8001/");
             const users = await res.json();
             ctx.commit('setUsers', users)
         }
@@ -16,11 +12,13 @@ export default {
         },
 
         updateUser(state, userNew) {
-            fetch("https://git.heroku.com/urozaev-backend.git" + userNew.id, {
+            fetch("http://localhost:8001/" + userNew.id, {
                 method: "PUT",
                 headers: {
+                    'Accept': 'application/json',
                     "Content-Type": "application/json"
-                }
+                },
+                body: JSON.stringify(userNew)
             })
             const userOld = state.users.find(user => {
                 return userNew.id == user.id;
@@ -33,18 +31,20 @@ export default {
         },
 
         createUser(state, newUser) {
-            fetch("https://git.heroku.com/urozaev-backend.git", {
+            fetch("http://localhost:8001/", {
                 method: "POST",
                 headers: {
+                    'Accept': 'application/json',
                     "Content-Type": "application/json"
-                }
+                },
+                body: JSON.stringify(newUser)
             })
             newUser.id = state.users[state.users.length - 1].id + 1
             state.users.push(newUser)
         },
 
         deleteUser(state, userId) {
-            fetch("https://git.heroku.com/urozaev-backend.git" + userId.id, {
+            fetch("http://localhost:8001/" + userId.id, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"

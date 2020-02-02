@@ -41,14 +41,14 @@
             @cancel="resetModal"
         >
             <form ref="form" @submit.stop.prevent="eventSubmit">
-                <b-form-group :state="nameState" label="Name" label-for="name-input" invalid-feedback="Name is required">
-                    <b-form-input id="name-input" v-model="user.name" :state="nameState" required></b-form-input>
+                <b-form-group :state="nameState" label="Name" label-for="name-input" invalid-feedback="Check yor name">
+                    <b-form-input id="name-input" type="text" v-model="user.name" :state="nameState" required></b-form-input>
                 </b-form-group>
-                <b-form-group :state="birthdayState" label="Birthday" label-for="birthday-input" invalid-feedback="Fill in birthday field">
-                    <b-form-input id="birthday-input" v-model="user.birthday" :state="birthdayState" v-mask="`##/##/####`" required></b-form-input>
+                <b-form-group :state="birthdayState" label="Birthday" label-for="birthday-input" invalid-feedback="Check your birthday">
+                    <b-form-input id="birthday-input" type="date" v-model="user.birthday" :state="birthdayState" required></b-form-input>
                 </b-form-group>
-                <b-form-group :state="phoneState" label="Phone" label-for="phone-input" invalid-feedback="Fill in phone field">
-                    <b-form-input id="phone-input" v-model="user.phone" :state="phoneState" v-mask="`+# (###) ### ## ##`" required></b-form-input>
+                <b-form-group :state="phoneState" label="Phone" label-for="phone-input" invalid-feedback="Check your phone">
+                    <b-form-input id="phone-input" type="tel" v-model="user.phone" :state="phoneState" v-mask="`+# (###) ### ## ##`" required></b-form-input>
                 </b-form-group>
                 <b-form-group label="Role" label-for="role-input">
                     <b-form-select id="role-input" v-model="user.role" :options="userRoles"></b-form-select>
