@@ -60,8 +60,8 @@ api = falcon.API()
 users = UserResource()
 users_id = UserIdResource()
 
-api.add_route('/users/', users)
-api.add_route('/users/{user_id}', users_id)
+api.add_route('/', users)
+api.add_route('/{user_id}', users_id)
 
 serve(api, host="127.0.0.1", port=8001)
 # hupper -m waitress --port=8001 app:application
