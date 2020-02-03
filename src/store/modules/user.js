@@ -39,7 +39,6 @@ export default {
                 },
                 body: JSON.stringify(newUser)
             })
-            newUser.id = state.users[state.users.length - 1].id + 1
             state.users.push(newUser)
         },
 

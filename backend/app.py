@@ -4,30 +4,16 @@ from waitress import serve
 from models import *
 from playhouse.shortcuts import model_to_dict
 import json
+from falcon.http_status import HTTPStatus
 
-
-class CORSComponent(object):
-    def process_response(self, req, resp, resource, req_succeeded):
+class HandleCORS(object):
+    def process_request(self, req, resp):
         resp.set_header('Access-Control-Allow-Origin', '*')
-
-        if (req_succeeded
-            and req.method == 'OPTIONS'
-            and req.get_header('Access-Control-Request-Method')
-        ):
-
-            allow = resp.get_header('Allow')
-            resp.delete_header('Allow')
-
-            allow_headers = req.get_header(
-                'Access-Control-Request-Headers',
-                default = '*'
-            )
-
-            resp.set_headers((
-                ('Access-Control-Allow-Methods', allow),
-                ('Access-Control-Allow-Headers', allow_headers),
-                ('Access-Control-Max-Age', '1728000'),  # 20 days
-            ))
+        resp.set_header('Access-Control-Allow-Methods', '*')
+        resp.set_header('Access-Control-Allow-Headers', '*')
+        resp.set_header('Access-Control-Max-Age', 1728000)  # 20 days
+        if req.method == 'OPTIONS':
+            raise HTTPStatus(falcon.HTTP_200, body='\n')
 
 
 class UserIdResource():
@@ -84,7 +70,7 @@ class UserResource():
             resp.status = falcon.HTTP_404
             
 
-api = falcon.API(middleware = [CORSComponent()])
+api = falcon.API(middleware=[HandleCORS() ])
 
 users = UserResource()
 users_id = UserIdResource()

@@ -1,40 +1,35 @@
 <template>
-
   <main id="app">
-
     <h1>{{title}}</h1>
     <router-view></router-view>
     <users></users>
-
   </main>
-
 </template>
 
 <script>
+import Vue from "vue";
+import BootstrapVue from "bootstrap-vue";
+import VueInputMask from "vue-inputmask-ng";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+import users from "./components/users";
+import vmodal from "vue-js-modal";
 
-import Vue from 'vue'
-import BootstrapVue from 'bootstrap-vue'
-import VueInputMask from 'vue-inputmask-ng'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-import users from './components/users'
-import vmodal from 'vue-js-modal'
-
-Vue.use(vmodal)
-Vue.use(BootstrapVue)
-Vue.use(VueInputMask)
+Vue.use(vmodal);
+Vue.use(BootstrapVue);
+Vue.use(VueInputMask);
 
 export default {
-  name: 'app',
+  name: "app",
   data() {
     return {
-      title: 'User List App'
-    }
+      title: "User List App"
+    };
   },
   components: {
     users
   }
-}
+};
 </script>
 
 <style lang='sass'>
