@@ -16,8 +16,7 @@ class HandleCORS(object):
             raise HTTPStatus(falcon.HTTP_200, body='\n')
 
 
-class UserIdResource():
-            
+class UserIdResource():    
     def on_delete(self, req, resp, user_id):
         try:
             resp.status = falcon.HTTP_200
@@ -25,7 +24,6 @@ class UserIdResource():
             resp.body = 'Пользователь удален'
         except urozaevModel.DoesNotExist:
             resp.status = falcon.HTTP_404
-    
     
     def on_put(self, req, resp, user_id):
         try:
@@ -44,7 +42,6 @@ class UserIdResource():
 
 
 class UserResource():
-    
     def on_get(self, req, resp):
         try:
             resp.status = falcon.HTTP_200
@@ -52,7 +49,6 @@ class UserResource():
             resp.body = json.dumps([model_to_dict(u) for u in users], default = str)
         except urozaevModel.DoesNotExist:
             resp.status = falcon.HTTP_404
-        
         
     def on_post(self, req, resp):
         try:
