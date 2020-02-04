@@ -1,7 +1,7 @@
 export default {
     actions: {
         async fetchUsers(ctx) {
-            const res = await fetch("http://localhost:8001/");
+            const res = await fetch("http://localhost:8041/");
             const users = await res.json();
             ctx.commit('setUsers', users)
         }
@@ -12,7 +12,7 @@ export default {
         },
 
         updateUser(state, userNew) {
-            fetch("http://localhost:8001/" + userNew.id, {
+            fetch("http://localhost:8041/" + userNew.id, {
                 method: "PUT",
                 headers: {
                     'Accept': 'application/json',
@@ -31,7 +31,7 @@ export default {
         },
 
         createUser(state, newUser) {
-            fetch("http://localhost:8001/", {
+            fetch("http://localhost:8041/", {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -43,7 +43,7 @@ export default {
         },
 
         deleteUser(state, userId) {
-            fetch("http://localhost:8001/" + userId.id, {
+            fetch("http://localhost:8041/" + userId.id, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
