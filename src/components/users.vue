@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 <template>
   <div class="creatin container">
 
