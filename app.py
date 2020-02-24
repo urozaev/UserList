@@ -22,7 +22,7 @@ class UserIdResource():
             resp.status = falcon.HTTP_200
             delete_user(user_id)
             resp.body = 'Пользователь удален'
-        except urozaevModel.DoesNotExist:
+        except userModel.DoesNotExist:
             resp.status = falcon.HTTP_404
     
     def on_put(self, req, resp, user_id):
@@ -37,7 +37,7 @@ class UserIdResource():
             user.isArchive = json_data['isArchive']
             user.save()
             resp.body = 'Пользователь обновлен'
-        except urozaevModel.DoesNotExist:
+        except userModel.DoesNotExist:
             resp.status = falcon.HTTP_404
 
 
@@ -45,9 +45,9 @@ class UserResource():
     def on_get(self, req, resp):
         try:
             resp.status = falcon.HTTP_200
-            users = urozaevModel.select().order_by(urozaevModel.id)
+            users = userModel.select().order_by(userModel.id)
             resp.body = json.dumps([model_to_dict(u) for u in users], default = str)
-        except urozaevModel.DoesNotExist:
+        except userModel.DoesNotExist:
             resp.status = falcon.HTTP_404
         
     def on_post(self, req, resp):
@@ -62,7 +62,7 @@ class UserResource():
                 json_data["isArchive"]
             )
             resp.body = "Пользователь успешно создан"
-        except urozaevModel.DoesNotExist:
+        except userModel.DoesNotExist:
             resp.status = falcon.HTTP_404
             
 

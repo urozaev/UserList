@@ -9,7 +9,7 @@ psql_db = PostgresqlDatabase(
 
 
 def init_tables():
-    psql_db.create_tables([urozaevModel], safe = True)
+    psql_db.create_tables([userModel], safe = True)
     
     
 class BaseModel(Model):
@@ -17,7 +17,7 @@ class BaseModel(Model):
         database = psql_db
 
 
-class urozaevModel(BaseModel):
+class userModel(BaseModel):
     name = CharField()
     birthday = DateField()
     phone = CharField()
@@ -26,7 +26,7 @@ class urozaevModel(BaseModel):
 
     
 def create_user(user_name, user_birthday, user_phone, user_role, user_isArchive):
-    urozaevModel.create (
+    userModel.create (
         name = user_name,
         birthday = user_birthday,
         phone = user_phone, 
@@ -35,13 +35,13 @@ def create_user(user_name, user_birthday, user_phone, user_role, user_isArchive)
     )
 
 def get_user(user_id):
-    user = urozaevModel.get(urozaevModel.id == user_id)
+    user = userModel.get(userModel.id == user_id)
     return user
 
 def update_user(user_id):
-    user = urozaevModel.select().where(urozaevModel.id == user_id).get()
+    user = userModel.select().where(userModel.id == user_id).get()
     return user
 
 def delete_user(user_id):
-    user = urozaevModel.get(urozaevModel.id == user_id)
+    user = userModel.get(userModel.id == user_id)
     user.delete_instance()
